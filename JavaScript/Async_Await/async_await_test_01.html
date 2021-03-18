@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function fetchUser() {
+        var url = "https://jsonplaceholder.typicode.com/users/1";
+        return fetch(url).then(function (response) {
+          return response.json();
+        });
+      }
+
+      function fetchTodo() {
+        var url = "https://jsonplaceholder.typicode.com/todos/1";
+        return fetch(url).then(function (response) {
+          return response.json();
+        });
+      }
+
+      async function logTodoTitle() {
+        try {
+            var user = await fetchUser();
+            console.log(user);
+            if (user.id === 1) {
+            var todo = await fetchTodo();
+            console.log(todo.title); // delectus aut autem
+            }
+        } catch (error) {
+            console.log(error);
+        }
+      }
+      logTodoTitle();
+    </script>
+  </body>
+</html>

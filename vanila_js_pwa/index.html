@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<!-- 언어를 한글로 설정! 미리 설정하지 않으면 PWA를 실행할 때마다 
+    '다른 언어로 번역하시겠습니까?' 라는 질문을 받게 됨 -->
+<html lang="ko"> 
+<head>
+    <meta charset="UTF-8">
+    <!-- PWA 매니페스트 파일 연결, 상태표시줄 색상을 흰색으로 변경 -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#ffffff">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- 모바일 기기 뷰포트, 브라우저 주소 표시줄의 파비콘 설정-->
+    <!-- 'width=device-width' : 모바일 기기의 해상도로 너빗값 자동 설정 -->
+    <!-- 'initial-scale=1' : 모바일 기기에서 확대하거나 축소 기능 허용 / 'user-scalable=no' : 확대,축소 기능 제한 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- 파비콘 설정 -->
+    <link rel="shortcut icon" href="images/icons/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/icons/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/icons/favicon-32x32.png">
+
+    <title>Hello! PWA by JS</title>
+    
+    <style>
+        html, body {
+            /*  html. body 모두 높이를 100%으로 고정시켜야 flex 박스 동작 */
+            height : 100%;
+            background-color: #F3A530;
+            color : #ffffff;
+        }
+
+        .container {
+            height : 100%;  /* 높이를 100%로 고정 */
+            display: flex;  /* 플렉스 박스로 배치 */
+            align-items: center;  /* 상하 가운데 정렬 (플렉스 박스를 위해 제공되는 속성)*/
+            justify-content: center; /* 좌우 가운데 정렬 (플렉스 박스를 위해 제공되는 속성) */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Hello!</h1>
+        <img src="/images/hello-pwa.png" alt=""></img>
+        <p>by JS</p>
+    </div>
+
+    <!-- 서비스 워커 등록 -->
+    <script>
+        //브라우저의 navigator 객체에 serviceWorker 프로퍼티가 있는지 확인하는 조건
+        if('serviceWorker' in navigator){
+            //첫 번째 페이지가 로드된 이후까지 서비스 워커의 초기 등록을 지연시킴
+            //백그라운드에서 리소스를 다운로드 및 캐시할 때 서비스 워커 구동이 성능을 저하시킬 수 있기 때문
+            window.addEventListener('load', function() { 
+                //서비스 워커 스크립트 등록
+                navigator.serviceWorker
+                    .register('/service_worker.js')
+                    .then(function(registration){
+                        console.log('서비스 워커가 등록되었습니다.');
+                        console.log(`scope : ${registration.scope}`);
+                    }
+                )
+            });
+        }
+    </script>
+</body>
+</html>

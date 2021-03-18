@@ -1,0 +1,8 @@
+{
+    "items" : [
+        {"name" : "홍길동", "age" : 35, "email" : "gildong@naver.com" },
+        {"name" : "강말숙", "age" : 24, "email" : "malsuk@naver.com" },
+        {"name" : "김둘리", "age" : 13, "email" : "dully@naver.com" }
+    ],
+    "itemLength" : 3
+}

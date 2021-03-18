@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /* 대용량 데이터셋에서 필요한 엘리먼트를 반환하는 함수 가정 */
+        var findNodes = function () { 
+            var i = 10000, // 긴 루프 
+            nodes = [], // 결과를 저장할 배열 
+            found; // 노드 탐색 결과 
+            while (i) { 
+                i -= 1; 
+                // 이 부분이 노드를 찾는 코드가 들어감 
+                nodes.push(found); 
+            } return nodes; 
+        };
+
+        /* findNodes 에서 필터링한 엘리먼트에 한해 display를 none으로 바꾸는 로직 */
+        var hide = function (nodes) { 
+            var i = 0, max = nodes.length; 
+            for (; i < max; i += 1) { 
+                nodes[i].style.display = 'none'; 
+            } 
+        }; 
+        // 함수를 실행한다. hide(findNodes());
+        hide(findNodes());
+
+
+        /*
+        이 구현은 findNodes()에서 반환된 노드의 배열에 대해 hide()가 다시 루프를 돌아야하기 때문에 비효율적입니다.
+        findNodes()에서 노드를 선택하고 바로 숨긴다면 재차 루프를 돌지 않아아 더 효율적일 것입니다. 그렇지만 findNodes()안에서 노드를 숨기는 로직을 구현하면 탐색과 수정 로직의 결합으로 인해 범용 함수의 의미가 퇴색될 것입니다.
+        바로 이럴 때 콜백 패턴을 사용할 수 있습니다.
+        노드를 숨기는 로직의 실행을 콜백 함수에 위임하고 이 함수를 findNodes()에 전달하도록 합니다.
+        */
+
+        ////////////////////////////////////////리펙터링/////////////////////////////////////////////
+        
+
+        // findNodes() 가 콜백을 받도록 리팩터링한다. 
+        var findNodes = function (callback) { 
+            var i = 10000, // 긴 루프 
+            nodes = [], // 결과를 저장할 배열 
+            found; // 노드 탐색 결과 
+            // 콜백 함수를 호출할 수 있는지를 확인한다. 
+            if (typeof callback !== 'function') { 
+                callback = false; 
+            } 
+            while (i) { 
+                i -= 1; 
+                // 이 부분이 노드를 찾는 코드가 들어감 
+                // 여기서 콜백을 실행한다. 
+                if(callback) {
+                     callback(found); 
+                } 
+                nodes.push(found);
+            } 
+            return nodes; 
+        };
+
+        // 콜백 함수 
+        var hide = function (node) { 
+            node.style.display = 'none'; 
+        }; 
+        
+        // 노드를 찾아서 바로 숨긴다. 
+        findNodes(hide);
+
+        // 또는 hide를 굳이 정의할 필요 없이 익명함수로도 전달 가능
+        findNodes(function (node) { 
+            node.style.display = 'none';
+        });
+
+    </script>
+</body>
+</html>

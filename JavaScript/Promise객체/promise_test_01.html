@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="module">
+        import {corsAnywhereUrl as corsUrl} from './cors.js';
+
+        const fnGetLocalData = function(){
+            fetch('./data.json')
+                .then(pResponse => pResponse.text())
+                .then(pPromise => console.log("로컬데이터", pPromise));
+        }
+
+        const fnGetWebData = function(){
+            // console.log("url", corsUrl);
+            fetch(corsUrl + 'https://jsonplaceholder.typicode.com/posts/1')
+            // fetch('https://jsonplaceholder.typicode.com/posts/1')
+                .then(pResponse => pResponse.text())
+                .then(() => throw Error('error'))
+                // .catch(error => console.log("error", error))
+                .then(pPromise => console.log("원격데이터", pPromise))
+                .finally(() => console.log('동작완료'));
+                
+        }
+
+        document.querySelector('.localBtn').onclick = fnGetLocalData;
+        document.querySelector('.webBtn').onclick = fnGetWebData;
+    </script>
+</head>
+<body>
+    <button class ="localBtn">로컬 데이터 표시</button>
+    <button class ="webBtn">원격 데이터 표시</button>
+
+</body>
+</html>

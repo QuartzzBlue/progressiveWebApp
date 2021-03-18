@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button onclick="
+        fnProductReady(1, 2000, function(msg){
+            console.log(msg);
+            fnProductReady(2, 3000, function(msg){
+                console.log(msg);
+                fnProductReady(3, 1000, function(msg){
+                    console.log(msg);
+                })                
+            })
+        })">
+    상품 배송_동기</button>
+
+    <button onclick="
+        fnProductReady(1, 2000, function(msg){
+            console.log(msg);
+            
+        })
+        fnProductReady(2, 3000, function(msg){
+            console.log(msg);
+                        
+        })
+        fnProductReady(3, 1000, function(msg){
+            console.log(msg);
+        })">
+    상품 배송_비동기</button>
+
+    <script>
+        //콜백 함수 구현
+        function fnProductReady(pNum, ptime, fnCallback){
+            //가상의 네트워크 지연 상황 연출
+            setTimeout(()=> {
+                console.log(`${pNum} 번 상품`);
+                fnCallback('상품이 성공적으로 배송되었습니다.')
+            }, ptime);
+        }
+    </script>
+</body>
+</html>

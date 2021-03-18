@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 전역변수를 활용하게 되면 누구나 전역변수에 접근할 수 있고,
+        값이 의도치 않게 변경되는 경우 오류로 이어진다. 
+        따라서 변수 cnt는 cnt를 관리하는 함수가 맡아 관리하는 것이 바람직 -->
+
+    <h1>클로저를 사용한 Counting</h1>
+    <h3 class = "count"></h3>
+    <button class = "increase">버튼</button>
+
+    <script>
+        var btn = document.querySelector('.increase');
+
+        var increaseCnt = function () {
+            var cnt = 0;
+            document.querySelector('.count').innerHTML = cnt;
+
+            //클로저 반환
+            return function (){
+                console.log("closer 실행 / cnt = " + cnt);
+                cnt += 1;
+                document.querySelector('.count').innerHTML = cnt;
+            };
+        };
+
+        (function () {
+            console.log("즉시실행함수")
+        }());
+
+        btn.onclick = increaseCnt();
+
+    </script>
+
+    <!-- <h1>지역변수를 사용한 Counting</h1>
+    <h3 class = "count">0</h3>
+    <button class = "increase">버튼</button>
+
+    <script>
+        var btn = document.querySelector('.increase');
+
+        var increaseCnt = function () {
+            // 항상 초기화되기 때문에 1 표시
+            // 쉽게 말해서 이전 상태를 기억하지 못함!
+            var cnt = 0;
+            console.log("cnt = " + cnt);
+            cnt += 1;
+            document.querySelector('.count').innerHTML = cnt;
+            
+        };
+
+        btn.onclick = increaseCnt;
+
+    </script> -->
+</body>
+</html>
